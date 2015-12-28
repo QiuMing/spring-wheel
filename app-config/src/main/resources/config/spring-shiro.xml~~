@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 缓存管理器 使用Ehcache实现 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:config/ehcache-shiro.xml" />
+    </bean>
+        <bean id="MonitorRealm" class="com.wheel.shiro.MonitorRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher" />
+        <property name="cachingEnabled" value="true" />
+        <property name="authenticationCachingEnabled" value="true" />
+        <property name="authenticationCacheName" value="authenticationCache" />
+        <property name="authorizationCachingEnabled" value="true" />
+        <property name="authorizationCacheName" value="authorizationCache" />
+    </bean>
+
+    <!-- 凭证匹配器 -->
+        <bean id="credentialsMatcher"  class="com.wheel.shiro.RetryLimitedCredentials">
+        <constructor-arg ref="cacheManager" />
+        <property name="hashAlgorithmName" value="SHA-256" />
+        <property name="hashIterations" value="2" />
+        <property name="storedCredentialsHexEncoded" value="true" />
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realms">
+            <list><ref bean="MonitorRealm" /> </list>
+        </property>
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>
+
+    <!-- Shiro生命周期处理器 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <!-- 针对url的拦截-->
+            <property name="loginUrl" value="http:localhost:8080/wheel/user/login?service=http://localhost:8080/shiro-cas" />
+        <property name="unauthorizedUrl" value="/unauthorized  " />
+        <property name="filters">
+            <util:map>
+                <entry key="authc">
+                    <bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter" />
+                </entry>
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /wheel/user/login = anon
+                /wheel/user/center/** = authc
+                /cooka-user-web/center/** = authc,roles[customer]
+                #/cooka-user-web/logout = logout
+            </value>
+        </property>
+    </bean>
+
+    <bean id="casRealm" class="org.apache.shiro.cas.CasRealm">
+        <property name="defaultRoles" value="ROLE_USER"/>
+        <property name="casServerUrlPrefix" value="https://www.cas.com"/>
+        <!-- 客户端的回调地址设置，必须和下面的shiro-cas过滤器拦截的地址一致 -->
+        <property name="casService" value="http://localhost:8080/shiro-cas"/>
+    </bean>
+    
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+
+    <!-- 异常拦截  使用注解的时候用的-->
+    <bean  class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    http://localhost/unauthorized
+                </prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    http://localhost/wheel/user/login
+                </prop>
+            </props>
+        </property>
+    </bean>
+</beans>

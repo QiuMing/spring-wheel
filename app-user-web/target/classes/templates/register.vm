@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <base href="<%=basePath%>">
+
+    <title>注册页面</title>
+
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <!--
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        -->
+    <style type="text/css">
+        table {
+            margin: 0 auto;
+            margin-top: 130px;
+            border: 1px solid black;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .left {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        tr {
+            border: 1px solid black;
+        }
+
+        td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<form action="register" method="post">
+    <table>
+        <tr>
+            <td colspan="2" class="title"><span>#springMessage("register")</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="left">昵称:</td>
+            <td><input type="text" name="nickName" value="test" />
+            </td>
+        </tr>
+        <tr>
+            <td class="left">用户名:</td>
+            <td><input type="text" name="email" value="test@163.com"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="left">密码:</td>
+            <td><input type="password" name="password"  value="11111"/></td>
+        </tr>
+        <tr class="center">
+            <td colspan="2">
+                 <input type="submit" value="submit" />&nbsp;&nbsp;&nbsp;
+                <input type="reset" value="reset" /></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

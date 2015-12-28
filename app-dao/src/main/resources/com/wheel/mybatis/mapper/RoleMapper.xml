@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wheel.mybatis.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.wheel.mybatis.model.Role">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role" jdbcType="CHAR" property="role" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    role_id, role, parent_id
+  </sql>
+</mapper>

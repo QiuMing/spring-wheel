@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wheel.mybatis.dao.RolePermissionLinkMapper">
+  <resultMap id="BaseResultMap" type="com.wheel.mybatis.model.RolePermissionLink">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="permission_id" jdbcType="INTEGER" property="permissionId" />
+  </resultMap>
+</mapper>
