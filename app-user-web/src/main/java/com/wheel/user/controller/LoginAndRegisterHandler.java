@@ -43,11 +43,10 @@ public class LoginAndRegisterHandler {
     public String doLogin(@Valid @ModelAttribute("user") UserForm user, BindingResult bindingResult,ModelMap model){
         logger.info(JSON.toJSONString(user));
 
-
         //注解级别的验证过滤
         if (bindingResult.hasErrors()) {
             logger.info(bindingResult.getAllErrors());
-            //return "login";
+            return "login";
         }
 
         Subject subject = SecurityUtils.getSubject();
@@ -59,7 +58,6 @@ public class LoginAndRegisterHandler {
         } catch (UnknownAccountException e) {
             error = "账号不存在";
             bindingResult.rejectValue("account", "account_not_exist");
-           //bindingResult.rejectValue("accoun","account_not_exist","账号不存在");
 
         } catch (RequireCaptchaException e) {
             error = "密码错误次数过多，显示验证码";
@@ -96,15 +94,17 @@ public class LoginAndRegisterHandler {
     public String doRegister(@Valid @ModelAttribute("user") UserForm user, BindingResult bindingResult){
         logger.info(JSON.toJSONString(user));
         if(StringUtils.isEmpty(user.getAccount())||StringUtils.isEmpty(user.getPassword())||StringUtils.isEmpty(user.getNickName())){
-            return "error";
+            System.out.println("参数为空");
         }
 
-        if(userServiceI.getUserByAccount(user.getAccount())==null){
+        if(userServiceI.getUserByAccount(user.getAccount())!=null){
+            System.out.println("对象已经存在");
             bindingResult.rejectValue("account", "Account has exist");
             return "register";
         }
 
         String result = userServiceI.register(user);
+
         if(result.equals("success"))
             return "success";
         else

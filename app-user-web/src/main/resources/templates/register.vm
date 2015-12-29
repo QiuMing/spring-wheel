@@ -45,7 +45,7 @@
 </head>
 
 <body>
-<form action="register" method="post">
+<form action="doRegister" method="post">
     <table>
         <tr>
             <td colspan="2" class="title"><span>#springMessage("register")</span>
@@ -58,13 +58,23 @@
         </tr>
         <tr>
             <td class="left">用户名:</td>
-            <td><input type="text" name="email" value="test@163.com"/>
+            <td><input type="text" name="account" value="test@163.com"/>
             </td>
         </tr>
         <tr>
             <td class="left">密码:</td>
-            <td><input type="password" name="password"  value="11111"/></td>
+            <td><input type="password" name="password"  value="aaaaaa"/></td>
         </tr>
+
+        <tr>
+            <td class="left">验证码:</td>
+            <td><input type="text" name="captcha" /></td>
+        </tr>
+        <tr>
+            <td class="left"></td>
+            <td> <img src="/wheel/user/captcha" height="30" width="100" alt="vcode"></td>
+        </tr>
+
         <tr class="center">
             <td colspan="2">
                  <input type="submit" value="submit" />&nbsp;&nbsp;&nbsp;
