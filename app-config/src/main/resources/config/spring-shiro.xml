@@ -17,7 +17,7 @@
     <!-- 会话DAO -->
     <bean id="sessionDAO"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
         <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
-        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+            <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
     <!-- 会话ID生成器 -->

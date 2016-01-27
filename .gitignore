@@ -9,5 +9,4 @@ bin/
 .classpath
 *.log
 .idea/
-.log
 *.iml

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:activiti="http://activiti.org/bpmn"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             targetNamespace="Examples"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL
+             http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+    <process id="Interview" name="某公司2012年实习生招聘流程">
+        <documentation>招聘工作流程</documentation>
+        <startEvent id="start" name="实习生招聘启动"/>
+        <userTask id="bishi" name="笔试" activiti:candidateGroups="人力资源部"/>
+        <sequenceFlow id="flow1" name="" sourceRef="start" targetRef="bishi"/>
+        <userTask id="yimian" name="技术一面" activiti:candidateGroups="技术部"/>
+        <sequenceFlow id="flow2" name="" sourceRef="bishi" targetRef="yimian"/>
+        <userTask id="ermian" name="技术二面" activiti:candidateGroups="技术部"/>
+        <sequenceFlow id="flow3" name="" sourceRef="yimian" targetRef="ermian"/>
+        <userTask id="hrmian" name="HR面" activiti:candidateGroups="人力资源部"/>
+        <sequenceFlow id="flow4" name="" sourceRef="ermian" targetRef="hrmian"/>
+        <userTask id="luyong" name="录用，发放Offer" activiti:candidateGroups="人力资源部"/>
+        <sequenceFlow id="flow5" name="" sourceRef="hrmian" targetRef="luyong"/>
+        <endEvent id="end" name="实习生招聘结束"/>
+        <sequenceFlow id="flow6" name="" sourceRef="luyong" targetRef="end"/>
+    </process>
+ 
+</definitions>

@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Ming on 2015/11/30.
  */
 @Service
-public class UserServiceImpl implements UserServiceI {
+public class    UserServiceImpl implements UserServiceI {
 
     @Autowired
     public UserMapper userMapper;
